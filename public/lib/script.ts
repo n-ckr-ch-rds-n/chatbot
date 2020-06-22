@@ -17,3 +17,14 @@ recognition.addEventListener('result', (e) => {
     console.log('Confidence: ' + e.results[0][0].confidence);
 });
 
+function synthVoice(text: string) {
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance();
+    utterance.text = text;
+    synth.speak(utterance);
+}
+
+socket.on("bot reply", (replyText: string) => {
+    synthVoice(replyText);
+    console.log("Reply text", replyText);
+});
