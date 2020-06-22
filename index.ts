@@ -1,12 +1,12 @@
 import express from 'express';
 import http from "http";
-import apiai from "apiai";
-import io from "socket.io";
+import APIAI from "apiai";
+import IO from "socket.io";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-apiai(process.env.APIAI_TOKEN as string);
+const apiai = APIAI(process.env.APIAI_TOKEN as string);
 
 const app = express();
 
@@ -18,5 +18,23 @@ app.get('/', (req, res) => {
     res.sendFile('index.html');
 })
 
-const socket = io(server);
+const io = IO(server);
+io.on("connection", (socket) => {
+    socket.on("chat message", text => {
 
+        let apiaiReq = apiai.textRequest(text, {
+            sessionId: "Shagaluf"
+        });
+
+        apiaiReq.on("response", response => {
+            let aiText = response.result.fulfillment.speech;
+            socket.emit("bot reply", aiText)
+        });
+
+        apiaiReq.on("error", error => {
+            console.log(error);
+        })
+
+        apiaiReq.end();
+    })
+})
