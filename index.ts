@@ -10,8 +10,7 @@ const apiai = APIAI(process.env.APIAI_TOKEN as string);
 
 const app = express();
 
-app.use(express.static(__dirname + '/views'));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/dist'));
 
 const server: http.Server = app.listen(5000);
 app.get('/', (req, res) => {
