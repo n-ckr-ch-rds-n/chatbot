@@ -5,17 +5,17 @@
 </head>
 <body>
     <div id="app">
-        <button v-on:click="sayHi">Talk</button>
+        <button v-on:click="sayHi">{{buttonText}}</button>
     </div>
     <script src="bundle.js"></script>
     <script>
         var app = new Vue({
             el: '#app',
             data: {
-                message: 'Hello Vue!'
+                buttonText: "Talk"
             },
             methods: {
-                sayHi: () => {console.log("HI THERE")}
+                sayHi: Foolio.sayHi()
             }
         })
     </script>

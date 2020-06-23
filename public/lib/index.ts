@@ -28,3 +28,10 @@ socket.on("bot reply", (replyText: string) => {
     synthVoice(replyText);
     console.log("Reply text", replyText);
 });
+
+export class Foolio {
+
+    static sayHi() {
+        console.log("Niblets for tea... again!?!?!");
+    }
+}
