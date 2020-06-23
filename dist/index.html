@@ -5,24 +5,19 @@
 </head>
 <body>
     <div id="app">
-        <button v-on:click="sayHi">{{buttonText}}</button>
+        <button>Talk</button>
     </div>
     <script src="bundle.js"></script>
     <script>
-        const recognition = new window.SpeechRecognition();
-        recognition.lang = 'en-GB';
-        recognition.interimResults = false;
-
-
-        var app = new Vue({
-            el: '#app',
-            data: {
-                buttonText: "Talk"
-            },
-            methods: {
-                sayHi: Foolio.sayHi()
-            }
-        })
+        // var app = new Vue({
+        //     el: '#app',
+        //     data: {
+        //         buttonText: "Talk"
+        //     },
+        //     methods: {
+        //         sayHi: Foolio.sayHi()
+        //     }
+        // })
     </script>
 </body>
 </html>
