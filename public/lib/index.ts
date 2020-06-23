@@ -2,20 +2,17 @@ import io from 'socket.io-client';
 import {SpeechRecognitionService} from "./speech-recognition-service/speech-recognition.service";
 import {SocketService} from "./socket-service/socket-service";
 import {VoiceSynthesiser} from "./voice-synthesiser/voice-synthesiser";
+import {RecognitionFactory} from "./recognition-factory/recognition-factory";
 
-const SR = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
-const recognition = new SR();
-recognition.lang = 'en-GB';
-recognition.interimResults = false;
-
+const recognition = RecognitionFactory.create();
 const voiceSynth = new VoiceSynthesiser(window.speechSynthesis);
 const socketService = new SocketService(io(), voiceSynth);
 const recognitionService = new SpeechRecognitionService(recognition, socketService);
 
 
-// document.querySelector("button")!.addEventListener("click", () => {
-//     recognition.start();
-// });
+document.querySelector("button")!.addEventListener("click", () => {
+    recognitionService.init();
+});
 
 // recognition.addEventListener('result', (e: SpeechRecognitionEvent) => {
 //     let last = e.results.length - 1;
