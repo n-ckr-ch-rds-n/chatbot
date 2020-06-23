@@ -1,13 +1,14 @@
 import io from 'socket.io-client';
+
 const SR = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
 const recognition = new SR();
 recognition.lang = 'en-GB';
 recognition.interimResults = false;
 const socket = io();
 
-document.querySelector("button")!.addEventListener("click", () => {
-    recognition.start();
-});
+// document.querySelector("button")!.addEventListener("click", () => {
+//     recognition.start();
+// });
 
 recognition.addEventListener('result', (e: SpeechRecognitionEvent) => {
     let last = e.results.length - 1;
