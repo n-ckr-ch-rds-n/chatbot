@@ -3,21 +3,19 @@ import http from "http";
 import APIAI from "apiai";
 import IO from "socket.io";
 import dotenv from "dotenv";
+import {ExpressServer} from "./express-server/express-server";
 
 dotenv.config();
 
 const apiai = APIAI(process.env.APIAI_TOKEN as string);
+const expressServer = new ExpressServer(express());
+const serverInstance = expressServer.start(5000);
 
-const app = express();
 
-app.use(express.static(__dirname + '/dist'));
 
-const server: http.Server = app.listen(5000);
-app.get('/', (req, res) => {
-    res.sendFile('index.html');
-})
 
-const io = IO(server);
+const io = IO(serverInstance);
+
 io.on("connection", (socket) => {
     socket.on("chat message", text => {
 
