@@ -4,8 +4,9 @@ import {Response} from "express-serve-static-core";
 
 export class ExpressServer {
 
-    constructor(private app: Express) {
-        this.app.use(express.static(__dirname + '/dist'));
+    constructor(private app: Express,
+                private viewsDir: string) {
+        this.app.use(express.static(this.viewsDir));
         this.app.get("/", (req, res) => this.getIndex(res))
     }
 
