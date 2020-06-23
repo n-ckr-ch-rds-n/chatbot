@@ -1,14 +1,16 @@
 import io from 'socket.io-client';
 import {SpeechRecognitionService} from "./speech-recognition-service/speech-recognition.service";
 import {SocketService} from "./socket-service/socket-service";
+import {VoiceSynthesiser} from "./voice-synthesiser/voice-synthesiser";
 
 const SR = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
 const recognition = new SR();
 recognition.lang = 'en-GB';
 recognition.interimResults = false;
 
-const socketService = new SocketService(io());
-const speechRecognitionService = new SpeechRecognitionService(recognition, socketService);
+const voiceSynth = new VoiceSynthesiser(window.speechSynthesis);
+const socketService = new SocketService(io(), voiceSynth);
+const recognitionService = new SpeechRecognitionService(recognition, socketService);
 
 
 // document.querySelector("button")!.addEventListener("click", () => {
@@ -22,15 +24,15 @@ const speechRecognitionService = new SpeechRecognitionService(recognition, socke
 //     console.log('Confidence: ' + e.results[0][0].confidence);
 // });
 
-function synthVoice(text: string) {
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance();
-    utterance.text = text;
-    synth.speak(utterance);
-}
-
-socket.on("bot reply", (replyText: string) => {
-    synthVoice(replyText);
-    console.log("Reply text", replyText);
-});
+// function synthVoice(text: string) {
+//     const synth = window.speechSynthesis;
+//     const utterance = new SpeechSynthesisUtterance();
+//     utterance.text = text;
+//     synth.speak(utterance);
+// }
+//
+// socket.on("bot reply", (replyText: string) => {
+//     synthVoice(replyText);
+//     console.log("Reply text", replyText);
+// });
 
