@@ -1,13 +1,21 @@
-export class SpeechRecognitionService {
-    speechRecognition: SpeechRecognition;
+import {SocketService} from "../socket-service/socket-service";
 
-    constructor() {
-        this.speechRecognition = new window.SpeechRecognition();
-        this.speechRecognition.lang = 'en-GB';
-        this.speechRecognition.interimResults = false;
+export class SpeechRecognitionService {
+
+    constructor(private recognition: SpeechRecognition,
+                private socketService: SocketService) {
+        this.recognition.addEventListener("result",
+            (e) => this.handleResult(e));
     }
 
     init() {
-        this.speechRecognition.start();
+        this.recognition.start();
+    }
+
+    handleResult(result: SpeechRecognitionEvent) {
+        let last = result.results.length - 1;
+        let text = result.results[last][0].transcript;
+        this.socketService.emitMessage(text);
+        console.log('Confidence: ' + result.results[0][0].confidence);
     }
 }

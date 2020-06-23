@@ -9,6 +9,11 @@
     </div>
     <script src="bundle.js"></script>
     <script>
+        const recognition = new window.SpeechRecognition();
+        recognition.lang = 'en-GB';
+        recognition.interimResults = false;
+
+
         var app = new Vue({
             el: '#app',
             data: {
